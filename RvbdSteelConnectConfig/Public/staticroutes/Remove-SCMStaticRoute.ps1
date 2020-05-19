@@ -1,29 +1,31 @@
 function Remove-SCMStaticRoute {
-<#
-#>
-	[CmdletBinding()]
-	Param (
-		[Parameter(Mandatory=$True)]
-		$id
+    <#
+    #>
+    [CmdletBinding()]
+    Param (
+        [Parameter(Mandatory = $True)]
+        $id
     )
 	
     Begin {
         #$TypeName = 'Riverbed.SteelConnect.SCMStaticRoutes'
-		$staticrouteid = $id
+        $staticrouteid = $id
 		
-		$Resource = "/staticroutes/$staticrouteid"
+        $Resource = "/staticroute/$staticrouteid"
 		
-		$params = @{
-			Resource = $Resource
-			Method = 'Delete'
-		}
+        $params = @{
+            Resource = $Resource
+            Method   = 'Delete'
+        }
     }
 
     Process {
         Write-Debug -Message "[$($MyInvocation.MyCommand)]"
     }
 	
-	End {
-		Invoke-RvbdRestMethod @params
-	}
+    End {
+        # On success there will be no output except a new blank line, redirect to null
+        $null = Invoke-RvbdRestMethod @params
+        # On failure an exception will be caught will output to warning stream
+    }
 }
