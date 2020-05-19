@@ -21,7 +21,7 @@ function Invoke-RvbdRestMethod {
         $finalResult = @()
 		
         $params = @{
-            Uri     = "$BaseUrl$Resource"
+            Uri     = $uri
             Headers = $DefaultRvbdSession['headers']
         }
 
