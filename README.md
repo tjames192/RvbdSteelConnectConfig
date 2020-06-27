@@ -36,3 +36,20 @@ gid                            SDDEDGERTSDGAGASG
 Headers                        {Accept, Authorization}
 
 ```
+
+### Copy static routes from SD to SDI
+```powershell
+# get a site's static routes
+$StaticRoute = Get-SCMStaticRoute | ? {$_.site -eq 'site-site-7e7b7af777bd777d'}
+
+# copy static route from SD to SDI
+# create new zone for each route
+foreach ($route in $StaticRoute) {
+    $network = $route.destination_network
+    $site    = $route.site
+    $name    = "thirdparty-" + ($route.destination_network.split('.')[0..2] -join '-')
+
+    new-scmzone -network $network -site $site -name $name
+}
+
+```
